@@ -16,7 +16,7 @@ This repository contains the following:
 
 ## Instructions
 
-1. Create a new target Java SDK Repo by clicking the **Use this template* button** at the top of this repository.
+1. Create a new target Java SDK Repo by clicking the __Use this template__ button at the top of this repository.
 1. Set `MAVEN_USERMANE` and `MAVEN_PASSWORD` action secrets in the target SDK repo with the values generated from the [Account](https://central.sonatype.com/account) page of the Maven Central Portal. (see [Appendix A](#appendix-a) for more information)
 1. Set `GPG_PRIVATE_KEY` and `GPG_PASSPHRASE` action secrets in the target SDK repo (see [Appendix B](#appendix-b) for detailed instructions)
 1. If you already have a Control Repo:
