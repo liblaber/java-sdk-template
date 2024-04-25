@@ -23,11 +23,11 @@ This repository contains the following:
 
     1. Update your `LIBLAB_GITHUB_TOKEN` actions secret to a new token that has access to all your existing SDK repos, as well as this new one.
 
-    1. Update your config file with field values required for publishing
+    1. Update your config file with the field values required for publishing:
 
         1. [`groupId`](https://developers.liblab.com/cli/config-file-overview-language/#groupid) with the value of your approved Central Repository namespace
         2. [`githubRepoName`](https://developers.liblab.com/cli/config-file-overview-language/#githubreponame) with the name of the target SDK repo
-        3. [`homepage`](https://developers.liblab.com/cli/config-file-overview-language/#homepage) with the valid homepage URL of the SDK
+        3. [`homepage`](https://developers.liblab.com/cli/config-file-overview-language/#homepage) with the valid public URL of the SDK homepage
 
 1. Run the GitHub Action `Generate SDKs using liblab` in the Control Repo that builds the SDK, and raises a PR against this target SDK Repo. This will be triggered automatically when you commit and push the update to the liblab config file.
 
@@ -40,9 +40,25 @@ This repository contains the following:
 1. Package will immediately appear on the [Deployments](https://central.sonatype.com/publishing/deployments) page under `PUBLISHING` status. After the validation process has been successfully finished, deployment will transition to `PUBLISHED` status and the package will become available on [Maven Central Repository](https://central.sonatype.com/search). 
 
 
-## Appendix A
+## Appendix A - Central Portal Setup
 
-- 
+Publishing action automates publishing packages via the [Central Portal](https://central.sonatype.org/), which is, as of March 12th, 2024, the default publishing server for Maven packages. We do not support automatic publishing through the Legacy OSSRH.
+
+### Account Creation
+
+The [Central Portal Account Documentation](https://central.sonatype.org/register/central-portal/) explains how to create an account that is required for claiming namespaces and managing package deployments.
+
+### Namespace Registration
+
+Namespace is the crutial prerequisite for publishing a package to the Central Repository as it is the `groupId` of the package.  The [Central Portal Namespace Documentation](https://central.sonatype.org/register/namespace/#switching-to-ossrh-during-portal-early-access) provides detaled instructions for claiming a namespace. 
+
+One should note that the namespace verification process is not instant. For own domain namespaces (e.g. `com.liblab`), additional step is required from the user, which involves setting up the verification key as a DNS reccord in order for the domain name to be verified by the Central Repository. For GitHub namespaces (namespace in the form of `io.github.githuborgname`), though, verification process is automatic if the user is registered using the GitHub SSO.   
+
+
+### Generating Maven Credentials
+
+Credentials for `MAVEN_USERNAME` and `MAVEN_PASSWORD` action secrets can be generated from the [Account](https://central.sonatype.com/account) page.
+
 
 ## Appendix B
 
