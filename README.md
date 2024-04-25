@@ -17,7 +17,7 @@ This repository contains the following:
 ## Instructions
 
 1. Create a new target Java SDK Repo by clicking the **Use this template* button** at the top of this repository.
-1. Set `MAVEN_USERMANE` and `MAVEN_PASSWORD` action secrets in the target SDK repo with the values generated from the (Account)[https://central.sonatype.com/account] page of the Maven Central Portal. (see [Appendix A](#appendix-a) for more information)
+1. Set `MAVEN_USERMANE` and `MAVEN_PASSWORD` action secrets in the target SDK repo with the values generated from the [Account](https://central.sonatype.com/account) page of the Maven Central Portal. (see [Appendix A](#appendix-a) for more information)
 1. Set `GPG_PRIVATE_KEY` and `GPG_PASSPHRASE` action secrets in the target SDK repo (see [Appendix B](#appendix-b) for detailed instructions)
 1. If you already have a Control Repo:
 
@@ -57,27 +57,28 @@ One should note that the namespace verification process is not instant. For own 
 
 ### Generating Maven Credentials
 
-Credentials for `MAVEN_USERNAME` and `MAVEN_PASSWORD` action secrets can be generated from the [Account](https://central.sonatype.com/account) page.
+Credentials for `MAVEN_USERNAME` and `MAVEN_PASSWORD` action secrets can be generated from the [Account](https://central.sonatype.com/account/) page.
 
 
 ## Appendix B - GPG Key and Passphrase
 
 The Central Repository requires all artifacts to be signed with GPG. This section explains how to generate your own key pair, distribute it to the key server and obtain the private key.
 
-1. Install [GnuPG](https://www.gnupg.org/download/) (available through `brew install gnupg`)
+1. Install [GnuPG](https://www.gnupg.org/download/)\
+    (available through `brew install gnupg`)
 
-1. Initialize the key generation prompt by running:
+1. Initialize the key generation prompt by running:\
     `gpg --gen-key`
 
 1. Input all necessary data and choose the passphrase
 
-1. Copy the key id - 40 character long value printed out in the second row by the command: 
+1. Copy the key id - 40 character long value printed out in the second row by the command:\
     `gpg --list-secret-keys`
 
-1. Send the key to the key server (in our case `openpgp`) by running :
+1. Send the key to the key server (in our case `openpgp`) by running:\
     `gpg --keyserver keys.openpgp.org --send-keys ${key-id}`
 
-1. Export the private key to the file by running
+1. Export the private key to the file by running:\
     `gpg --export-secret-keys ${key-id} --armour > key.asc`
 
 1. Copy the contents of the `key.asc` file and paste it in the `GPG_PRIVATE_KEY` action secret
