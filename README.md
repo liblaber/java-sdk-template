@@ -50,9 +50,9 @@ The [Central Portal Account Documentation](https://central.sonatype.org/register
 
 ### Namespace Registration
 
-Namespace is the crutial prerequisite for publishing a package to the Central Repository as it is the `groupId` of the package.  The [Central Portal Namespace Documentation](https://central.sonatype.org/register/namespace/#switching-to-ossrh-during-portal-early-access) provides detaled instructions for claiming a namespace. 
+Namespace is the crucial prerequisite for publishing a package to the Central Repository as it is the `groupId` of the package.  The [Central Portal Namespace Documentation](https://central.sonatype.org/register/namespace/#switching-to-ossrh-during-portal-early-access) provides detailed instructions for claiming a namespace. 
 
-One should note that the namespace verification process is not instant. For own domain namespaces (e.g. `com.liblab`), additional step is required from the user, which involves setting up the verification key as a DNS reccord in order for the domain name to be verified by the Central Repository. For GitHub namespaces (namespace in the form of `io.github.githuborgname`), though, verification process is automatic if the user is registered using the GitHub SSO.   
+One should note that the namespace verification process is not instant. For own domain namespaces (e.g. `com.liblab`), additional step is required from the user, which involves setting up the verification key as a DNS record in order for the domain name to be verified by the Central Repository. For GitHub namespaces (namespace in the form of `io.github.githuborgname`), though, verification process is automatic if the user is registered using the GitHub SSO.   
 
 
 ### Generating Maven Credentials
