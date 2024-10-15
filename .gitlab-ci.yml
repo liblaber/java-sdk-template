@@ -1,0 +1,27 @@
+image: openjdk:8-jdk
+
+stages:
+  - publish
+
+publish:
+  stage: publish
+  rules:
+    - if: $CI_COMMIT_TAG  # This will run the job only when a new tag is pushed
+  before_script:
+    - apt-get update && apt-get install -y gnupg
+    - echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+    - echo "$GPG_PASSPHRASE" > gpg_passphrase.txt
+    - gpg --pinentry-mode loopback --batch --passphrase-file gpg_passphrase.txt --keyid-format LONG --list-secret-keys
+  script:
+    - mvn --no-transfer-progress --batch-mode -Dgpg.passphrase=$(cat gpg_passphrase.txt) clean deploy -P release-sign-artifacts -e
+  after_script:
+    - rm gpg_passphrase.txt
+  variables:
+    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+    MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+variables:
+  MAVEN_USERNAME: ${MAVEN_USERNAME}
+  MAVEN_PASSWORD: ${MAVEN_PASSWORD}
+  GPG_PRIVATE_KEY: ${GPG_PRIVATE_KEY}
+  GPG_PASSPHRASE: ${GPG_PASSPHRASE}
