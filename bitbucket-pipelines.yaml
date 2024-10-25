@@ -1,0 +1,49 @@
+image: openjdk:8-jdk
+
+pipelines:
+  tags:
+    '*':
+      - step:
+          name: Pre-check for Environment Variables
+          script:
+            - echo "Checking if necessary environment variables are defined..."
+            - |
+              if [ -z "$MAVEN_USERNAME" ]; then
+                echo "Error: MAVEN_USERNAME is not defined"
+                exit 1
+              fi
+              if [ -z "$MAVEN_PASSWORD" ]; then
+                echo "Error: MAVEN_PASSWORD is not defined"
+                exit 1
+              fi
+              if [ -z "$GPG_PRIVATE_KEY" ]; then
+                echo "Error: GPG_PRIVATE_KEY is not defined"
+                exit 1
+              fi
+              if [ -z "$GPG_PASSPHRASE" ]; then
+                echo "Error: GPG_PASSPHRASE is not defined"
+                exit 1
+              fi
+      - step:
+          name: Install GPG and Import Key
+          script:
+            - apt-get update && apt-get install -y gnupg
+            - echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+            - echo "$GPG_PASSPHRASE" > gpg_passphrase.txt
+            - gpg --pinentry-mode loopback --batch --passphrase-file gpg_passphrase.txt --keyid-format LONG --list-secret-keys
+          needs:
+            - step: Pre-check for Environment Variables
+      - step:
+          name: Publish Maven Artifacts
+          caches:
+            - maven
+          script:
+            - mvn --no-transfer-progress --batch-mode -Dgpg.passphrase=$(cat gpg_passphrase.txt) clean deploy -P release-sign-artifacts -e
+          after-script:
+            - rm gpg_passphrase.txt
+          needs:
+            - step: Install GPG and Import Key
+
+definitions:
+  caches:
+    maven: ~/.m2/repository
